@@ -11,6 +11,10 @@
 		0434B5E92BB988CC00326F15 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0434B5E82BB988CC00326F15 /* ContentView.swift */; };
 		0434B5EB2BB988CD00326F15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0434B5EA2BB988CD00326F15 /* Assets.xcassets */; };
 		0434B5EE2BB988CD00326F15 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0434B5ED2BB988CD00326F15 /* Preview Assets.xcassets */; };
+		0434B5FD2BB9919900326F15 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 0434B5FC2BB9919900326F15 /* OpenAI */; };
+		04FB17C42BBDB7090056498F /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 04FB17C32BBDB7090056498F /* KeyboardShortcuts */; };
+		04FB17C62BBDB7240056498F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FB17C52BBDB7240056498F /* Constants.swift */; };
+		04FB17C82BBDB77B0056498F /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FB17C72BBDB77B0056498F /* SettingsScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +24,9 @@
 		0434B5EA2BB988CD00326F15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0434B5ED2BB988CD00326F15 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		0434B5EF2BB988CD00326F15 /* WriteGPT.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WriteGPT.entitlements; sourceTree = "<group>"; };
+		04FB17C12BB99F560056498F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		04FB17C52BBDB7240056498F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		04FB17C72BBDB77B0056498F /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +34,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0434B5FD2BB9919900326F15 /* OpenAI in Frameworks */,
+				04FB17C42BBDB7090056498F /* KeyboardShortcuts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,11 +61,14 @@
 		0434B5E52BB988CC00326F15 /* WriteGPT */ = {
 			isa = PBXGroup;
 			children = (
+				04FB17C12BB99F560056498F /* Info.plist */,
 				0434B5E62BB988CC00326F15 /* WriteGPTApp.swift */,
+				04FB17C72BBDB77B0056498F /* SettingsScreen.swift */,
 				0434B5E82BB988CC00326F15 /* ContentView.swift */,
 				0434B5EA2BB988CD00326F15 /* Assets.xcassets */,
 				0434B5EF2BB988CD00326F15 /* WriteGPT.entitlements */,
 				0434B5EC2BB988CD00326F15 /* Preview Content */,
+				04FB17C52BBDB7240056498F /* Constants.swift */,
 			);
 			path = WriteGPT;
 			sourceTree = "<group>";
@@ -85,6 +97,10 @@
 			dependencies = (
 			);
 			name = WriteGPT;
+			packageProductDependencies = (
+				0434B5FC2BB9919900326F15 /* OpenAI */,
+				04FB17C32BBDB7090056498F /* KeyboardShortcuts */,
+			);
 			productName = WriteGPT;
 			productReference = 0434B5E32BB988CC00326F15 /* WriteGPT.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +129,10 @@
 				Base,
 			);
 			mainGroup = 0434B5DA2BB988CC00326F15;
+			packageReferences = (
+				0434B5FB2BB9919900326F15 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				04FB17C22BBDB7090056498F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			productRefGroup = 0434B5E42BB988CC00326F15 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,8 +159,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FB17C82BBDB77B0056498F /* SettingsScreen.swift in Sources */,
 				0434B5E92BB988CC00326F15 /* ContentView.swift in Sources */,
 				0434B5E72BB988CC00326F15 /* WriteGPTApp.swift in Sources */,
+				04FB17C62BBDB7240056498F /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +301,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WriteGPT/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -306,6 +330,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WriteGPT/Info.plist;
+				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -341,6 +367,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0434B5FB2BB9919900326F15 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.2.6;
+			};
+		};
+		04FB17C22BBDB7090056498F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0434B5FC2BB9919900326F15 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0434B5FB2BB9919900326F15 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
+		04FB17C32BBDB7090056498F /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 04FB17C22BBDB7090056498F /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0434B5DB2BB988CC00326F15 /* Project object */;
 }

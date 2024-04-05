@@ -5,4 +5,8 @@
 //  Created by Priyanshu Nayan on 03/04/24.
 //
 
-import Foundation
+import KeyboardShortcuts
+
+extension KeyboardShortcuts.Name {
+    static let captureImproveWritingCommand = Self("captureImproveWritingCommand")
+}
