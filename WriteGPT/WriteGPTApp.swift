@@ -24,46 +24,6 @@ struct WriteGPTApp: App {
     }
 }
 
-//extension AXUIElement {
-//  static var focusedElement: AXUIElement? {
-//    systemWide.element(for: kAXFocusedUIElementAttribute)
-//  }
-//  
-//  var selectedText: String? {
-//    rawValue(for: kAXSelectedTextAttribute) as? String
-//  }
-//  
-//  private static var systemWide = AXUIElementCreateSystemWide()
-//  
-//  private func element(for attribute: String) -> AXUIElement? {
-//    guard let rawValue = rawValue(for: attribute), CFGetTypeID(rawValue) == AXUIElementGetTypeID() else { return nil }
-//    return (rawValue as! AXUIElement)
-//  }
-//  
-//  private func rawValue(for attribute: String) -> AnyObject? {
-//    var rawValue: AnyObject?
-//    let error = AXUIElementCopyAttributeValue(self, attribute as CFString, &rawValue)
-//    return error == .success ? rawValue : nil
-//  }
-//}
-
-
-//private func getSelectedText() -> String? {
-//    // Press command + C, read the text, replace in the clipboard, press command + V
-//
-//    
-//    return AXUIElement.focusedElement?.selectedText
-//}
-
-
-//@MainActor
-//final class AppState: ObservableObject {
-//    init() {
-//        KeyboardShortcuts.onKeyUp(for: .captureImproveWritingCommand) { [] in
-//            print(getSelectedText() ?? "An error occurred")
-//        }
-//    }
-//}
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     

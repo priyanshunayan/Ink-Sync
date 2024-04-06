@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import OpenAI
+import OpenAIKit
 
 
 struct ContentView: View {
@@ -17,14 +17,11 @@ struct ContentView: View {
     
     @State private var search: String = ""
     @State private var response: String = ""
-    // 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
-    
     
     @AppStorage("openAIKey") private var openAIKey:String = "";
     @AppStorage("openAIModel") private var openAIModel:OpenAIModels = .gpt3Turbo;
 
-    
-    
+
     
     
     private var isFormValid: Bool {
@@ -35,34 +32,72 @@ struct ContentView: View {
         !response.isEmpty
     }
     
-    private func improveWriting() {
+    private func improveWriting() async {
         isLoading.toggle()
-        let openAI = OpenAI(apiToken: openAIKey)
-
-        let query = CompletionsQuery(model: .gpt3_5Turbo, prompt: "What is 42?", temperature: 0, maxTokens: 100, topP: 1, frequencyPenalty: 0, presencePenalty: 0, stop: ["\\n"])
+        let urlSession = URLSession(configuration: .default)
+        let configuration = Configuration(apiKey: openAIKey)
         
-            openAI.completions(query: query) { result in
-                switch result {
-                case .success(_):
-                    do {
-                        let reply = try result.get().choices.first?.text
-                        response = reply ?? "Hello, how are you?"
-                        isLoading.toggle()
-                    } catch {
-                        print("Error")
-                        isLoading.toggle()
-                    }
-                   
-                case .failure(_):
-                    response = "Hello, how are you?"
-                    isLoading.toggle()
-                }
-            }
+        
+        let openAIClient = OpenAIKit.Client(session: urlSession, configuration: configuration)
+        
+        let modelToUse: OpenAIKit.ModelID  = openAIModel == .gpt3Turbo ? OpenAIKit.Model.GPT3.gpt3_5Turbo  :  OpenAIKit.Model.GPT4.gpt4
+        
+        do {
+            
+            let messages: [Chat.Message] = [
+                .system(content: IMPROVE_WRITING_PROMPT),
+                .user(content: response)
+            ]
+            
+            let completion = try await openAIClient.chats.create(
+                model: modelToUse,
+                messages: messages
+            )
+            response = completion.choices.first?.message.content ?? ""
+            copyToClipboard(response)
+            isLoading.toggle()
+        } catch let error as APIErrorResponse {
+            response = error.localizedDescription
+            isLoading.toggle()
+        } catch(let error) {
+            response = error.localizedDescription
+            isLoading.toggle()
+        }
     }
     
     
-    private func fixSpellingAndGrammar() {
+    private func fixSpellingAndGrammar() async {
+        isLoading.toggle()
+        print("Fixing spelling and grammar")
+        let urlSession = URLSession(configuration: .default)
+        let configuration = Configuration(apiKey: openAIKey)
         
+        
+        let openAIClient = OpenAIKit.Client(session: urlSession, configuration: configuration)
+        
+        
+        let modelToUse: OpenAIKit.ModelID  = openAIModel == .gpt3Turbo ? OpenAIKit.Model.GPT3.gpt3_5Turbo  :  OpenAIKit.Model.GPT4.gpt4
+        
+        do {
+            let messages: [Chat.Message] = [
+                .system(content: FIX_SPELLING_AND_GRAMMAR_PROMPT),
+                .user(content: response)
+            ]
+            
+            let completion = try await openAIClient.chats.create(
+                model: modelToUse,
+                messages: messages
+            )
+            response = completion.choices.first?.message.content ?? ""
+            copyToClipboard(response)
+            isLoading.toggle()
+        } catch let error as APIErrorResponse {
+            response = error.localizedDescription
+            isLoading.toggle()
+        } catch(let error) {
+            response = error.localizedDescription
+            isLoading.toggle()
+        }
     }
     
     private func openSettingsScreen() {
@@ -70,16 +105,19 @@ struct ContentView: View {
     }
     
     private func copyToClipboard(_ text: String) {
+        shouldShowClipboard.toggle()
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            shouldShowClipboard.toggle()
+        }
     }
     
     
     
     var body: some View {
         VStack {
-            
             HStack {
                 Spacer()
                 Button(action: {
@@ -100,17 +138,16 @@ struct ContentView: View {
                 .lineSpacing(8)
                 .textEditorStyle(.automatic)
                 .accessibilityLabel("Paste your text here")
+                .onAppear {
+                    if let clipboardString = NSPasteboard.general.string(forType: .string) {
+                        response = clipboardString
+                    }
+                }
 
                     
                 HStack {
                     Button(action: {
-                        shouldShowClipboard.toggle()
                         copyToClipboard(response)
-                        
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            shouldShowClipboard.toggle()
-                                    }
                     }) {
                         Image(systemName: shouldShowClipboard ? "clipboard.fill" : "checkmark.circle.fill")
                             .imageScale(.large)
@@ -126,13 +163,23 @@ struct ContentView: View {
                             }
                     }.padding(.bottom, 8)
                         Spacer()
+                    
+                    
                         Button(action: {
-                            improveWriting()
+                            Task {
+                                await improveWriting()
+                            }
                         }, label: {
                             Text("Improve Writing")
                         }).padding(.bottom, 8)
+                    
+                    
+                    
                         Button(action: {
-                            fixSpellingAndGrammar()
+                            Task {
+                                await fixSpellingAndGrammar()
+                            }
+                            
                         }, label: {
                             Text("Fix spelling and grammar")
                         }).padding(.bottom, 8)

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import KeyboardShortcuts
+import OpenAIKit
 
 
 enum OpenAIModels: String, CaseIterable {
@@ -16,7 +16,7 @@ enum OpenAIModels: String, CaseIterable {
 
 struct SettingsScreen: View {
     @AppStorage("openAIKey") private var openAIKey:String = "";
-    @AppStorage("openAIModel") private var openAIModel:OpenAIModels = .gpt4 ;
+    @AppStorage("openAIModel") private var openAIModel:OpenAIModels = .gpt3Turbo ;
 
     
     var body: some View {
