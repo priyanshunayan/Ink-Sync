@@ -1,5 +1,5 @@
 {
-  "originHash" : "35ef5aba9f779bf252ff60ee8f2aae48ab04dcd615bec50c081f6523965fe3e6",
+  "originHash" : "8d777d4abf05f48c665b9ad4ca73dc84c6e2bf78a6b8cd76263ad809a9641356",
   "pins" : [
     {
       "identity" : "async-http-client",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "291438696abdd48d2a83b52465c176efbd94512b",
         "version" : "1.20.1"
+      }
+    },
+    {
+      "identity" : "axistooltip",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jasudev/AxisTooltip.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "2c83b754b4e257a86a03a29f199b15a48410be48"
       }
     },
     {

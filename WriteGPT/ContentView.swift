@@ -7,26 +7,23 @@
 
 import SwiftUI
 import OpenAIKit
+import AxisTooltip
 
 
 struct ContentView: View {
     
+    
     @State private var isLoading = false
     @State private var shouldShowClipboard = true
+    @State private var response: String = ""
+    @State private var corrections: String?
+    @State private var shouldShowCorrectionTooltip = false
 
     
-    @State private var search: String = ""
-    @State private var response: String = ""
     
     @AppStorage("openAIKey") private var openAIKey:String = "";
     @AppStorage("openAIModel") private var openAIModel:OpenAIModels = .gpt3Turbo;
 
-
-    
-    
-    private var isFormValid: Bool {
-        !search.isEmpty
-    }
     
     private var isResponseFieldEditable: Bool {
         !response.isEmpty
@@ -53,7 +50,10 @@ struct ContentView: View {
                 model: modelToUse,
                 messages: messages
             )
-            response = completion.choices.first?.message.content ?? ""
+            let components = completion.choices.first?.message.content.components(separatedBy: "---")
+            
+            response = components?[0] ?? ""
+            corrections = components?.count ?? 0 > 1 ? components?[1] : nil
             copyToClipboard(response)
             isLoading.toggle()
         } catch let error as APIErrorResponse {
@@ -88,7 +88,10 @@ struct ContentView: View {
                 model: modelToUse,
                 messages: messages
             )
-            response = completion.choices.first?.message.content ?? ""
+            let components = completion.choices.first?.message.content.components(separatedBy: "---")
+            
+            response = components?[0] ?? ""
+            corrections = components?.count ?? 0 > 1 ? components?[1] : nil
             copyToClipboard(response)
             isLoading.toggle()
         } catch let error as APIErrorResponse {
@@ -114,12 +117,28 @@ struct ContentView: View {
         }
     }
     
+    private func clearInput() {
+        response = ""
+    }
+    
+
     
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
+                Button(action: {
+                    clearInput()
+                }) {
+                    Image(systemName: "clear.fill")
+                        .imageScale(.medium)
+                }
+                .buttonStyle(BorderlessButtonStyle())
+                .padding(.top, 4)
+                .help("Clear Input")
+                
+                
                 Button(action: {
                     openSettingsScreen()
                 }) {
@@ -128,6 +147,7 @@ struct ContentView: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .padding(.top, 4)
+                .help("Open Settings")
                 
             }.padding(8)
             
@@ -139,29 +159,62 @@ struct ContentView: View {
                 .textEditorStyle(.automatic)
                 .accessibilityLabel("Paste your text here")
                 .onAppear {
-                    if let clipboardString = NSPasteboard.general.string(forType: .string) {
+                     if let clipboardString = NSPasteboard.general.string(forType: .string) {
                         response = clipboardString
                     }
                 }
+                
 
-                    
                 HStack {
-                    Button(action: {
-                        copyToClipboard(response)
-                    }) {
-                        Image(systemName: shouldShowClipboard ? "clipboard.fill" : "checkmark.circle.fill")
-                            .imageScale(.large)
-                    }.padding(.bottom, 8)
-                    .buttonStyle(BorderlessButtonStyle())
-                    
                     HStack {
+                        Button(action: {
+                            copyToClipboard(response)
+                        }) {
+                            Image(systemName: shouldShowClipboard ? "clipboard.fill" : "checkmark.circle.fill")
+                                .imageScale(.large)
+                        }.padding(.bottom, 8)
+                        .buttonStyle(BorderlessButtonStyle())
+                        
                         if isLoading {
                             ProgressView()
                                 .scaleEffect(0.6)
+                                .padding(.bottom, 8)
+                        } else if let corrections = corrections {
+                            Button(action: {
+                                shouldShowCorrectionTooltip.toggle()
+                            }) {
+                                Image(systemName: "sparkles")
+                                    .imageScale(.large)
+                            }
+                            .padding(.bottom, 8)
+                            .buttonStyle(BorderlessButtonStyle())
+                            .offset(x: -52)
+                            .offset(y: -4)
+                            .axisToolTip(isPresented: $shouldShowCorrectionTooltip, constant: ATConstant(axisMode: .top, arrow: ATArrowConstant(width: 0)), foreground: {
+                                ScrollView {
+                                    VStack {
+                                        Text("Corrections applied")
+                                            .font(.title2)
+                                            .padding(.top, 20)
+                                        Text(corrections)
+                                            .padding(.horizontal, 20)
+                                            .padding(.bottom, 20)
+                                            .font(.body)
+                                    }
+                                }
+                                .frame(width: 400, height: 200)
                                
                                 
-                            }
-                    }.padding(.bottom, 8)
+                            })
+
+                            Spacer()
+                        
+                        
+                    }
+                        Spacer()
+                }
+                    
+                    
                         Spacer()
                     
                     

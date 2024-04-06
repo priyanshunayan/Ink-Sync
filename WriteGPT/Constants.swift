@@ -7,6 +7,7 @@
 
 
 
+
 let IMPROVE_WRITING_PROMPT = """
 You are an assistant that revises user's document to improve its writing quality.
 
@@ -22,6 +23,8 @@ Make sure to:
 - Do not remove any markdown formatting in the text, like headers, bullets, or checkboxes
 - Do not use overly formal language
 
+- Return the revised user's document first and all the corrections with reasons as a list after a triple hyphen.
+
 """
 
 
@@ -31,4 +34,9 @@ Do not change the formatting or structure of the text; only fix spelling and gra
 Do not change the meaning of the text.
 Do not remove any formatting in the text, like headers, bullets, or checkboxes.
 
+Return the revised user's text first and all the corrections with reasons as a list after a triple hyphen.
+
 """
+
+
+

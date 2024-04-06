@@ -58,6 +58,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     
     
+    
     @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
@@ -66,8 +67,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             statusButton.action = #selector(togglePopover)
         }
         
+
+        
         self.popover = NSPopover()
         self.popover.contentSize = NSSize(width: 464, height: 300)
+
         self.popover.contentViewController = NSHostingController(rootView: ContentView())
         self.popover.behavior = .transient
     }
