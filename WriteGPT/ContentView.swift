@@ -13,7 +13,8 @@ import AxisTooltip
 struct ContentView: View {
     
     
-    @State private var isLoading = false
+    @State private var isImprovingWriting = false
+    @State private var isFixingGrammar = false
     @State private var shouldShowClipboard = true
     @State private var response: String = ""
     @State private var corrections: String?
@@ -30,7 +31,7 @@ struct ContentView: View {
     }
     
     private func improveWriting() async {
-        isLoading.toggle()
+        isImprovingWriting.toggle()
         let urlSession = URLSession(configuration: .default)
         let configuration = Configuration(apiKey: openAIKey)
         
@@ -55,19 +56,19 @@ struct ContentView: View {
             response = components?[0] ?? ""
             corrections = components?.count ?? 0 > 1 ? components?[1] : nil
             copyToClipboard(response)
-            isLoading.toggle()
+            isImprovingWriting.toggle()
         } catch let error as APIErrorResponse {
             response = error.localizedDescription
-            isLoading.toggle()
+            isImprovingWriting.toggle()
         } catch(let error) {
             response = error.localizedDescription
-            isLoading.toggle()
+            isImprovingWriting.toggle()
         }
     }
     
     
     private func fixSpellingAndGrammar() async {
-        isLoading.toggle()
+        isFixingGrammar.toggle()
         print("Fixing spelling and grammar")
         let urlSession = URLSession(configuration: .default)
         let configuration = Configuration(apiKey: openAIKey)
@@ -93,13 +94,13 @@ struct ContentView: View {
             response = components?[0] ?? ""
             corrections = components?.count ?? 0 > 1 ? components?[1] : nil
             copyToClipboard(response)
-            isLoading.toggle()
+            isFixingGrammar.toggle()
         } catch let error as APIErrorResponse {
             response = error.localizedDescription
-            isLoading.toggle()
+            isFixingGrammar.toggle()
         } catch(let error) {
             response = error.localizedDescription
-            isLoading.toggle()
+            isFixingGrammar.toggle()
         }
     }
     
@@ -221,11 +222,7 @@ struct ContentView: View {
                         }.padding(.bottom, 8)
                         .buttonStyle(BorderlessButtonStyle())
                         
-                        if isLoading {
-                            ProgressView()
-                                .scaleEffect(0.6)
-                                .padding(.bottom, 8)
-                        } else if let corrections = corrections {
+                        if let corrections = corrections {
                             Button(action: {
                                 shouldShowCorrectionTooltip.toggle()
                             }) {
@@ -234,8 +231,8 @@ struct ContentView: View {
                             }
                             .padding(.bottom, 8)
                             .buttonStyle(BorderlessButtonStyle())
-                            .offset(x: -52)
                             .offset(y: -4)
+                            .padding(.leading, -156)
                             .axisToolTip(isPresented: $shouldShowCorrectionTooltip, constant: ATConstant(axisMode: .top, arrow: ATArrowConstant(width: 0)), foreground: {
                                 ScrollView {
                                     VStack {
@@ -266,13 +263,27 @@ struct ContentView: View {
                     
                         Button(action: {
                             Task {
+                                
                                 await improveWriting()
                             }
                         }, label: {
-                            Text("Improve Writing")
+                            if isImprovingWriting {
+                                withAnimation {
+                                    ProgressView()
+                                        .scaleEffect(0.6)
+                                }
+                                
+                                    
+                            } else {
+                                Text("Improve Writing")
+                            }
+                            
+                            
                         }).padding(.bottom, 8)
                         .buttonStyle(.borderedProminent)
                               .controlSize(.large)
+                              .disabled(isImprovingWriting)
+                              
                     
                     
                     
@@ -282,9 +293,17 @@ struct ContentView: View {
                             }
                             
                         }, label: {
-                            Text("Fix grammar")
+                            if isFixingGrammar {
+                                ProgressView()
+                                    .scaleEffect(0.6)
+                                    
+                            } else {
+                                Text("Fix grammar")
+                            }
+                            
                         }).padding(.bottom, 8)
                                                       .controlSize(.large)
+                                                      .disabled(isFixingGrammar)
                         
                     }.padding(6)
                 .frame(height: 36)

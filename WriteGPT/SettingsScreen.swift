@@ -71,6 +71,7 @@ struct SettingsScreen: View {
                     Button("Save and close") {
                         NSApp.keyWindow?.close()
                     }.foregroundColor(.blue)
+                        .buttonStyle(.borderedProminent)
                         
                     
                     Link("Give Feedback", destination: URL(string: "https://pen-pal.canny.io/feature-requests")!)
