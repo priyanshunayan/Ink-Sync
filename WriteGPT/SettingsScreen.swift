@@ -15,9 +15,11 @@ enum OpenAIModels: String, CaseIterable {
 }
 
 struct SettingsScreen: View {
+
     @AppStorage("openAIKey") private var openAIKey:String = "";
     @AppStorage("openAIModel") private var openAIModel:OpenAIModels = .gpt3Turbo ;
 
+    @State private var isSecure = true
     
     var body: some View {
         
@@ -31,16 +33,54 @@ struct SettingsScreen: View {
                     }
                 }.pickerStyle(.segmented)
                 
-                SecureField("Enter your OpenAI Key", text: $openAIKey).textFieldStyle(.roundedBorder)
+                
+               
+                
+                VStack {
+                    HStack {
+                            
+                            if isSecure {
+                                SecureField("Enter your OpenAI Key", text: $openAIKey).textFieldStyle(.roundedBorder)
+                            } else {
+                                TextField("Enter your OpenAI Key", text: $openAIKey).textFieldStyle(.roundedBorder)
+                            }
+                        Button(action: {
+                                    isSecure.toggle()
+                                }) {
+                                    Image(systemName: isSecure ? "eye.slash" : "eye")
+                                }.buttonStyle(BorderlessButtonStyle())
+                    }
+                    HStack {
+                        Link("Get your key here", destination: URL(string: "https://platform.openai.com/api-keys")!)
+                        Spacer()
+                    }.offset(x: 145)
+                   
+                    
+                }
+
+
                 
             }
             .padding(.top, 24)
             .padding(.horizontal, 24)
             
-            Button("Save and close") {
-                NSApp.keyWindow?.close()
-            }.padding(.top, 24).foregroundColor(.blue)
-                .padding(.bottom, 24)
+            
+            VStack {
+                HStack {
+                    
+                    Button("Save and close") {
+                        NSApp.keyWindow?.close()
+                    }.foregroundColor(.blue)
+                        
+                    
+                    Link("Give Feedback", destination: URL(string: "https://pen-pal.canny.io/feature-requests")!)
+                    
+                }.padding(.bottom, 8)
+                .padding(.top, 24)
+                
+            }
+            
+                
             
             
         }.padding(.bottom, 24)
@@ -48,6 +88,7 @@ struct SettingsScreen: View {
     }
 }
 
-#Preview {
-    SettingsScreen()
-}
+//#Preview {
+//    var updaterViewModel = UpdaterViewModel()
+//    SettingsScreen(updaterViewModel: updaterViewModel)
+//}

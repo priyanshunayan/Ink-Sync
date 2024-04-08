@@ -121,17 +121,43 @@ struct ContentView: View {
         response = ""
     }
     
+    struct Star: View {
+        var color = Color.yellow
+
+
+        var body: some View {
+            Image(systemName: "dot.circle.fill")
+                .foregroundStyle(color)
+                .frame(width: 5, height: 5)
+        }
+    }
+    
 
     
     
     var body: some View {
         VStack {
             HStack {
+                Label {
+                    Text("Pen Pal")
+                        .foregroundStyle(.primary)
+                        .fontWeight(.thin)
+                        .font(.title2)
+                        .padding(.top, 4)
+                        
+                } icon: {
+                    Image(systemName: "wand.and.stars")
+                }
+                
+                
+
+
                 Spacer()
+                
                 Button(action: {
                     clearInput()
                 }) {
-                    Image(systemName: "clear.fill")
+                    Image(systemName: "arrow.clockwise")
                         .imageScale(.medium)
                 }
                 .buttonStyle(BorderlessButtonStyle())
@@ -144,10 +170,30 @@ struct ContentView: View {
                 }) {
                     Image(systemName: "gearshape.fill")
                         .imageScale(.medium)
+                        .overlay(alignment: .topTrailing) {
+                            if openAIKey.isEmpty {
+                                Star(color: .red) }
+                            }
+                            
+                            
+
+
                 }
                 .buttonStyle(BorderlessButtonStyle())
                 .padding(.top, 4)
                 .help("Open Settings")
+                
+                Button(action: {
+                    NSApplication.shared.terminate(nil)
+                }) {
+                    Image(systemName: "xmark.circle.fill")
+                        .imageScale(.medium)
+                }
+                .padding(.top, 4)
+                .help("Open Settings")
+                .buttonStyle(BorderlessButtonStyle())
+                .keyboardShortcut("q")
+                
                 
             }.padding(8)
             
@@ -156,7 +202,7 @@ struct ContentView: View {
                 .font(.body)
                 .frame(maxWidth:.infinity, maxHeight: .infinity)
                 .lineSpacing(8)
-                .textEditorStyle(.automatic)
+                
                 .accessibilityLabel("Paste your text here")
                 .onAppear {
                      if let clipboardString = NSPasteboard.general.string(forType: .string) {
@@ -225,6 +271,8 @@ struct ContentView: View {
                         }, label: {
                             Text("Improve Writing")
                         }).padding(.bottom, 8)
+                        .buttonStyle(.borderedProminent)
+                              .controlSize(.large)
                     
                     
                     
@@ -234,8 +282,9 @@ struct ContentView: View {
                             }
                             
                         }, label: {
-                            Text("Fix spelling and grammar")
+                            Text("Fix grammar")
                         }).padding(.bottom, 8)
+                                                      .controlSize(.large)
                         
                     }.padding(6)
                 .frame(height: 36)

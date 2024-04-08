@@ -13,12 +13,13 @@ struct WriteGPTApp: App {
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
+
     
     var body: some Scene {
 //        WindowGroup {
 //            ContentView()
 //        }
-        Settings {
+        Settings() {
             SettingsScreen()
         }
     }
@@ -29,6 +30,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
+    
+
     
     
     
@@ -58,19 +61,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     
     
     
-    
     @MainActor func applicationDidFinishLaunching(_ notification: Notification) {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {
-            statusButton.image = NSImage(systemSymbolName: "square.and.pencil.circle.fill", accessibilityDescription: "Improve Writing")
+            statusButton.image = NSImage(systemSymbolName: "wand.and.stars", accessibilityDescription: "Pen Pal Menu button")
             statusButton.action = #selector(togglePopover)
         }
         
 
-        
+         
         self.popover = NSPopover()
-        self.popover.contentSize = NSSize(width: 464, height: 300)
+        self.popover.contentSize = NSSize(width: 474, height: 300)
 
         self.popover.contentViewController = NSHostingController(rootView: ContentView())
         self.popover.behavior = .transient
