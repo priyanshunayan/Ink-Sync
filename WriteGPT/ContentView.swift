@@ -232,7 +232,6 @@ struct ContentView: View {
                             .padding(.bottom, 8)
                             .buttonStyle(BorderlessButtonStyle())
                             .offset(y: -4)
-                            .padding(.leading, -156)
                             .axisToolTip(isPresented: $shouldShowCorrectionTooltip, constant: ATConstant(axisMode: .top, arrow: ATArrowConstant(width: 0)), foreground: {
                                 ScrollView {
                                     VStack {
