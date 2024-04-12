@@ -1,12 +1,27 @@
 {
   "images" : [
     {
-      "filename" : "Untitled (512 x 512 px).png",
+      "filename" : "Your App Icon.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "Your App Icon@2x 2.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "Your App Icon@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "Your App Icon@2x.png",
       "idiom" : "mac",
       "scale" : "1x"
     },
     {
-      "filename" : "Untitled (512 x 512 px) (1).png",
+      "filename" : "Your App Icon@2x 1.png",
       "idiom" : "mac",
       "scale" : "2x"
     }
