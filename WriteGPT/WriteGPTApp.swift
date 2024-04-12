@@ -65,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {
-            statusButton.image = NSImage(systemSymbolName: "wand.and.stars", accessibilityDescription: "Pen Pal Menu button")
+            statusButton.image = NSImage(systemSymbolName: "wand.and.stars", accessibilityDescription: "Ink Sync Menu button")
             statusButton.action = #selector(togglePopover)
         }
         

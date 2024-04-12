@@ -140,7 +140,7 @@ struct ContentView: View {
         VStack {
             HStack {
                 Label {
-                    Text("Pen Pal")
+                    Text("Ink Sync")
                         .foregroundStyle(.primary)
                         .fontWeight(.thin)
                         .font(.title2)
