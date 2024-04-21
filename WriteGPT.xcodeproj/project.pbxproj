@@ -14,7 +14,6 @@
 		04FB17C62BBDB7240056498F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FB17C52BBDB7240056498F /* Constants.swift */; };
 		04FB17C82BBDB77B0056498F /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FB17C72BBDB77B0056498F /* SettingsScreen.swift */; };
 		04FB17CB2BC1388F0056498F /* OpenAIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 04FB17CA2BC1388F0056498F /* OpenAIKit */; };
-		04FB17D12BC1613E0056498F /* AxisTooltip in Frameworks */ = {isa = PBXBuildFile; productRef = 04FB17D02BC1613E0056498F /* AxisTooltip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +34,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				04FB17CB2BC1388F0056498F /* OpenAIKit in Frameworks */,
-				04FB17D12BC1613E0056498F /* AxisTooltip in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +97,6 @@
 			name = WriteGPT;
 			packageProductDependencies = (
 				04FB17CA2BC1388F0056498F /* OpenAIKit */,
-				04FB17D02BC1613E0056498F /* AxisTooltip */,
 			);
 			productName = WriteGPT;
 			productReference = 0434B5E32BB988CC00326F15 /* Inc Sync.app */;
@@ -131,7 +128,6 @@
 			mainGroup = 0434B5DA2BB988CC00326F15;
 			packageReferences = (
 				04FB17C92BC1388F0056498F /* XCRemoteSwiftPackageReference "openai-kit" */,
-				04FB17CF2BC1613E0056498F /* XCRemoteSwiftPackageReference "AxisTooltip" */,
 			);
 			productRefGroup = 0434B5E42BB988CC00326F15 /* Products */;
 			projectDirPath = "";
@@ -384,14 +380,6 @@
 				minimumVersion = 1.8.2;
 			};
 		};
-		04FB17CF2BC1613E0056498F /* XCRemoteSwiftPackageReference "AxisTooltip" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/jasudev/AxisTooltip.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -399,11 +387,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 04FB17C92BC1388F0056498F /* XCRemoteSwiftPackageReference "openai-kit" */;
 			productName = OpenAIKit;
-		};
-		04FB17D02BC1613E0056498F /* AxisTooltip */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04FB17CF2BC1613E0056498F /* XCRemoteSwiftPackageReference "AxisTooltip" */;
-			productName = AxisTooltip;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

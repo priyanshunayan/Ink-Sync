@@ -7,7 +7,6 @@
 
 import SwiftUI
 import OpenAIKit
-import AxisTooltip
 
 
 struct ContentView: View {
@@ -224,8 +223,10 @@ struct ContentView: View {
                                     icon: { Image(systemName: "checkmark.circle.fill") }
                                 )
                             } else {
-                                Image(systemName: "clipboard.fill")
-                                    .imageScale(.large)
+                                Label(
+                                    title: { Text("Copy") },
+                                    icon: { Image(systemName: "clipboard.fill") }
+                                )
                             }
                         }.padding(.bottom, 8)
                         .buttonStyle(BorderlessButtonStyle())
@@ -239,29 +240,26 @@ struct ContentView: View {
                             }
                             .padding(.bottom, 8)
                             .buttonStyle(BorderlessButtonStyle())
-                            .offset(y: -4)
-                            .axisToolTip(isPresented: $shouldShowCorrectionTooltip, constant: ATConstant(axisMode: .top, arrow: ATArrowConstant(width: 0)), foreground: {
+                            .popover(isPresented: $shouldShowCorrectionTooltip) {
                                 ScrollView {
                                     VStack {
                                         Text("Corrections applied")
                                             .font(.title2)
-                                            .padding(.top, 20)
+                                            .padding(.top, 10)
                                         Text(corrections)
-                                            .padding(.horizontal, 20)
-                                            .padding(.bottom, 20)
+                                            .padding(.horizontal, 10)
+                                            .padding(.bottom, 10)
                                             .font(.body)
                                     }
                                 }
-                                .frame(width: 400, height: 200)
-                               
-                                
-                            })
+                                            .padding()
+                                    }
+
 
                             Spacer()
                         
                         
                     }
-                        Spacer()
                 }
                     
                     
