@@ -228,8 +228,16 @@ struct ContentView: View {
                         Button(action: {
                             copyToClipboard(response)
                         }) {
-                            Image(systemName: shouldShowClipboard ? "clipboard.fill" : "checkmark.circle.fill")
-                                .imageScale(.large)
+                            
+                            if !shouldShowClipboard {
+                                Label(
+                                    title: { Text("Copied") },
+                                    icon: { Image(systemName: "checkmark.circle.fill") }
+                                )
+                            } else {
+                                Image(systemName: "clipboard.fill")
+                                    .imageScale(.large)
+                            }
                         }.padding(.bottom, 8)
                         .buttonStyle(BorderlessButtonStyle())
                         
