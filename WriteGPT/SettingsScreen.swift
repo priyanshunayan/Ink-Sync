@@ -73,9 +73,17 @@ struct SettingsScreen: View {
                     Link("Give Feedback", destination: URL(string: "https://ink-sync.canny.io/feature-requests")!)
                     
                 }.padding(.bottom, 8)
-                .padding(.top, 24)
                 
-            }
+                
+                Button("Quit App") {
+                    NSApplication.shared.terminate(nil)
+                }.foregroundColor(.blue)
+                
+                
+                
+                
+                
+            }.padding(.bottom, 24)
             
                 
             

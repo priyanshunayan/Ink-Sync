@@ -198,17 +198,6 @@ struct ContentView: View {
                 .padding(.top, 4)
                 .help("Open Settings")
                 
-                Button(action: {
-                    NSApplication.shared.terminate(nil)
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .imageScale(.medium)
-                }
-                .padding(.top, 4)
-                .help("Open Settings")
-                .buttonStyle(BorderlessButtonStyle())
-                .keyboardShortcut("q")
-                
                 
             }.padding(8)
             
