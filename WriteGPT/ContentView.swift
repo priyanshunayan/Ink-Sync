@@ -52,7 +52,8 @@ struct ContentView: View {
             
             let completion = try await openAIClient.chats.create(
                 model: modelToUse,
-                messages: messages
+                messages: messages,
+                temperature: 0
             )
             let components = completion.choices.first?.message.content.components(separatedBy: "---")
             
@@ -94,7 +95,8 @@ struct ContentView: View {
             
             let completion = try await openAIClient.chats.create(
                 model: modelToUse,
-                messages: messages
+                messages: messages,
+                temperature: 0
             )
             let components = completion.choices.first?.message.content.components(separatedBy: "---")
             
