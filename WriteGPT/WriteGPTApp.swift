@@ -75,9 +75,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, Observable
         self.popover = NSPopover()
         self.popover.contentSize = NSSize(width: 474, height: 300)
 
-        self.popover.contentViewController = NSHostingController(rootView: ContentView().environmentObject(self).onAppear(perform: {
-            print("appeared")
-        }))
+        self.popover.contentViewController = NSHostingController(rootView: ContentView().environmentObject(self))
         self.popover.behavior = .transient
     }
     
