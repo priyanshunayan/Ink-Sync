@@ -51,7 +51,7 @@ struct SettingsScreen: View {
                                 }.buttonStyle(BorderlessButtonStyle())
                     }
                     HStack {
-                        Link("Get your key here", destination: URL(string: "https://platform.openai.com/api-keys")!)
+                        Link("Don't have an API Key?", destination: URL(string: "https://platform.openai.com/api-keys")!)
                         Spacer()
                     }.offset(x: 145)
                    
