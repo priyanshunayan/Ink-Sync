@@ -50,10 +50,7 @@ struct SettingsScreen: View {
                                     Image(systemName: isSecure ? "eye.slash" : "eye")
                                 }.buttonStyle(BorderlessButtonStyle())
                     }
-                    HStack {
-                        Link("Don't have an API Key?", destination: URL(string: "https://platform.openai.com/api-keys")!)
-                        Spacer()
-                    }.offset(x: 145)
+
                    
                     
                 }
