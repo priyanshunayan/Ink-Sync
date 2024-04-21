@@ -26,13 +26,13 @@ struct WriteGPTApp: App {
 }
 
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, ObservableObject {
     
     private var statusItem: NSStatusItem!
     private var popover: NSPopover!
     
 
-    
+    @Published var clipboardString = ""
     
     
     var window: NSWindow!
@@ -55,6 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             NSApp.activate(ignoringOtherApps: true)
         }
         preferencesWindow.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
 
     }
        
@@ -65,7 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusButton = statusItem.button {
-            statusButton.image = NSImage(systemSymbolName: "wand.and.stars", accessibilityDescription: "Ink Sync Menu button")
+            statusButton.image = NSImage(systemSymbolName: "wand.and.stars", accessibilityDescription: "ink sync icon" )
             statusButton.action = #selector(togglePopover)
         }
         
@@ -74,11 +75,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         self.popover = NSPopover()
         self.popover.contentSize = NSSize(width: 474, height: 300)
 
-        self.popover.contentViewController = NSHostingController(rootView: ContentView())
+        self.popover.contentViewController = NSHostingController(rootView: ContentView().environmentObject(self).onAppear(perform: {
+            print("appeared")
+        }))
         self.popover.behavior = .transient
     }
     
     @objc func togglePopover() {
+        let pasteboard = NSPasteboard.general
+        let copiedString = pasteboard.string(forType: .string)
+        
+        clipboardString = copiedString ?? ""
+            
+        
         if let button = statusItem.button {
             if popover.isShown {
                 self.popover.performClose(nil)

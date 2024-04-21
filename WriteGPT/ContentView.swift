@@ -11,19 +11,22 @@ import AxisTooltip
 
 
 struct ContentView: View {
-    
+    @EnvironmentObject var delegate: AppDelegate
+
     
     @State private var isImprovingWriting = false
     @State private var isFixingGrammar = false
     @State private var shouldShowClipboard = true
-    @State private var response: String = ""
+    @State private var response: String = "";
     @State private var corrections: String?
     @State private var shouldShowCorrectionTooltip = false
+
 
     
     
     @AppStorage("openAIKey") private var openAIKey:String = "";
-    @AppStorage("openAIModel") private var openAIModel:OpenAIModels = .gpt3Turbo;
+    @AppStorage("openAIModel") private var openAIModel:OpenAIModels = .gpt4;
+
 
     
     private var isResponseFieldEditable: Bool {
@@ -58,7 +61,12 @@ struct ContentView: View {
             copyToClipboard(response)
             isImprovingWriting.toggle()
         } catch let error as APIErrorResponse {
-            response = error.localizedDescription
+            if openAIKey.isEmpty {
+                response = "No API Key found, Please set it by clicking on settings icon on the top"
+            }else {
+                response = error.localizedDescription
+            }
+            
             isImprovingWriting.toggle()
         } catch(let error) {
             response = error.localizedDescription
@@ -69,7 +77,6 @@ struct ContentView: View {
     
     private func fixSpellingAndGrammar() async {
         isFixingGrammar.toggle()
-        print("Fixing spelling and grammar")
         let urlSession = URLSession(configuration: .default)
         let configuration = Configuration(apiKey: openAIKey)
         
@@ -96,7 +103,12 @@ struct ContentView: View {
             copyToClipboard(response)
             isFixingGrammar.toggle()
         } catch let error as APIErrorResponse {
-            response = error.localizedDescription
+            if openAIKey.isEmpty {
+                response = "No API Key found, Please set it by clicking on settings icon on the top"
+            }else {
+                response = error.localizedDescription
+            }
+            
             isFixingGrammar.toggle()
         } catch(let error) {
             response = error.localizedDescription
@@ -202,14 +214,11 @@ struct ContentView: View {
             TextEditor(text: $response)
                 .font(.body)
                 .frame(maxWidth:.infinity, maxHeight: .infinity)
-                .lineSpacing(8)
-                
+                .lineSpacing(4)
                 .accessibilityLabel("Paste your text here")
-                .onAppear {
-                     if let clipboardString = NSPasteboard.general.string(forType: .string) {
-                        response = clipboardString
-                    }
-                }
+                .onReceive(delegate.$clipboardString, perform: { clipboardString in
+                    self.response = clipboardString
+                })
                 
 
                 HStack {
@@ -278,7 +287,9 @@ struct ContentView: View {
                             }
                             
                             
-                        }).padding(.bottom, 8)
+                        })
+                        .padding(.bottom, 8)
+                        
                         .buttonStyle(.borderedProminent)
                               .controlSize(.large)
                               .disabled(isImprovingWriting)
@@ -300,9 +311,11 @@ struct ContentView: View {
                                 Text("Fix grammar")
                             }
                             
-                        }).padding(.bottom, 8)
+                        })
+                        .padding(.bottom, 8)
                                                       .controlSize(.large)
                                                       .disabled(isFixingGrammar)
+                                                      
                         
                     }.padding(6)
                 .frame(height: 36)

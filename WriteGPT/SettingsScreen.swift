@@ -72,9 +72,8 @@ struct SettingsScreen: View {
                         NSApp.keyWindow?.close()
                     }.foregroundColor(.blue)
                         .buttonStyle(.borderedProminent)
-                        
                     
-                    Link("Give Feedback", destination: URL(string: "https://pen-pal.canny.io/feature-requests")!)
+                    Link("Give Feedback", destination: URL(string: "https://ink-sync.canny.io/feature-requests")!)
                     
                 }.padding(.bottom, 8)
                 .padding(.top, 24)
